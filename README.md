@@ -73,7 +73,7 @@ Testing tesserocr
 Installing pdf2image
 ====================
 
-Tesing pdf2image
+Testing pdf2image
 ================
 
 Other useful resouces
