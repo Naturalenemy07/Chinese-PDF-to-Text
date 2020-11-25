@@ -65,7 +65,7 @@ If your Jupyter Notebook returns a version of Python 3.7, you are good to procee
 
 Installing tesserocr
 ====================
-Now that the hard part is done, proceed to [tesserocr](https://github.com/sirfz/tesserocr) and install the files onto your folder.  I recommend using the same folder that your Jupyter Notebook files are stored at.  I'm not sure of the technicalities of this, but it worked that way for me, I don't know of any other way, nor am I comfortable in testing it at the moment.  
+Now that the hard part is done, proceed to [tesserocr](https://github.com/sirfz/tesserocr) and install the files based on Python version and OS.  
 
 Other useful resouces
 
