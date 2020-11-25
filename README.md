@@ -67,6 +67,15 @@ Installing tesserocr
 ====================
 Now that the hard part is done, proceed to [tesserocr](https://github.com/sirfz/tesserocr) and install the files based on Python version and OS.  
 
+Testing tesserocr
+=================
+
+Installing pdf2image
+====================
+
+Tesing pdf2image
+================
+
 Other useful resouces
 
 1. https://stackoverflow.com/questions/59544006/multiple-versions-of-anaconda-python-installation
