@@ -65,10 +65,32 @@ If your Jupyter Notebook returns a version of Python 3.7, you are good to procee
 
 Installing tesserocr
 ====================
-Now that the hard part is done, proceed to [tesserocr](https://github.com/sirfz/tesserocr) and install the files based on Python version and OS.  
+Now that the hard part is done, proceed to [tesserocr](https://github.com/sirfz/tesserocr) and install the files based on Python version and OS.  This folder will read **tesserocr-master**.  I installed and unzipped the files in the directory which opens up when I activate my Python 3.7 virtual environment in Anaconda.  To ensure this, use conda to install **tesserocr**.
+```
+conda install -c conda-forge tesserocr
+```
+A wheel file appropriate to your Windows version needs to be installed.  Go to [simonflueckiger/tesserocr-windows_build](https://github.com/simonflueckiger/tesserocr-windows_build/releases), click and download the file appropirate for your system in the **tesserocr-master** folder that was installed in the previous step.  For my system, I downloaded the **tesserocr-2.4.0-cp36-cp36m-win_amd64.whl** file.  Next the file needs to be installed via pip by:
+```
+pip install <package name>.whl
+```
+For me I typed in:
+```
+pip install tesserocr-2.4.0-cp36-cp36m-win_amd64.whl
+```
+Next you need to install Pillow which is the Python Imaging Library.  More information can be found at [Pillow](https://pillow.readthedocs.io/en/stable/).  You can pip install Pillow in the Anaconda prompt by:
+```
+pip install Pillow
+```
+Next, you need to install the trained language packages from tessdata.  There are three levels: standard, best and fast. Click the below links to download and learn more about the trained dataset.  When you download, make sure to put this folder in the **tesserocr-master** folder.  
+1. [tessdata_standard](https://github.com/tesseract-ocr/tessdata) -  only works with Tesseract 4.0.0.
+2. [tessdata_best](https://github.com/tesseract-ocr/tessdata_best) -  only works with Tesseract 4.0.0.
+3. [tessdata_fast](https://github.com/tesseract-ocr/tessdata_fast)
+
+I used the **tessdata_best** package, it is a little slower but has a higher accuracy.
 
 Testing tesserocr
 =================
+Tesserocr uses .jpg or .jpeg images as input and converts the picture to text based on the language you told it to use.  Before we can convert a PDF file 
 
 Installing pdf2image
 ====================
