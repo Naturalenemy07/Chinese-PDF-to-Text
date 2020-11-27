@@ -11,7 +11,7 @@ First, we need to make an environment that is suitable for the trained Chinese l
 
 Making Virtual Environment that uses Python 3.7
 ======
-Assuming you have already installed Anaconda and Python 3.7, make sure to add python 3.7 to your path enviromental variables.  Once this is done, you can open up the Anaconda Prompt.  To create a new virtual environment that contains Python 3.7 type code below into Anaconda.
+Assuming you have already installed Anaconda and Python 3.7, make sure to add python 3.7 to your path enviromental variables.  Once this is done, you can open up the Anaconda Prompt.  To create a new virtual environment that contains Python 3.7 type code below into Anaconda Prompt.
 ```
 conda create --name <name of your virtual environment> python=3.7
 ```
@@ -23,7 +23,7 @@ Once everything is done you will get a message stating:
 #
 #     $ conda activate <name of your virtual environment>
 ```
-Before activating, let's verify that the Python actually changes when you switch to the new environment.  Checking the verion of Python before and after activating the new environment will tell you if it was successful.
+Before activating, let's verify that the Python version actually changes when you switch to the new environment.  Checking the verion of Python before and after activating the new environment will determine if it was successful.
 ```
 python --version
 ```
@@ -36,20 +36,20 @@ To activate your environment intput:
 ```
 conda activate <name of your virtual environment>
 ```
-Next, i activated the new virtual environment (the name of this environment is pytest37) and it returned:
+Next, I activated the new virtual environment (the name of this environment is pytest37), and checked my Python version, it returned:
 ```
 (pytest37) C:\Users\JohnnyC>python --version
 Python 3.7.9
 ```
-This verified that the setup of my new virutal environment was successful. Next, [Jupyter Notebook](https://jupyter.org/install) needs to be installed in the new virtual environment.  Make sure that you have activated your new environment.  You should see the name of your environment in parenthesis on the left of the command line.  In the Anaconda Prompt.
+This verified that the setup of my new virutal environment was successful. Next, [Jupyter Notebook](https://jupyter.org/install) needs to be installed in the new virtual environment.  Make sure that you have activated your new environment before installing Jupyter.  You should see the name of your environment in parenthesis on the left of the command line.  In the Anaconda Prompt:
 ```
 conda install -c conda-forge notebook
 ```
-Once installed, the python version can be tested in Jupyter Notebook by first opening Jupyter Notebook.  In the new environment, in Anaconda Prompt. 
+Once installed, the Python version can be tested in Jupyter Notebook by first opening Jupyter Notebook.  In the new environment, in Anaconda Prompt. 
 ```
 jupyter notebook
 ```
-This will open up a notebook in your web browser.  next we will check the version of Python that the notebook uses.  In Jupyter Notebook, open up a new Python notebook and type in the cell:
+This will open up a notebook in your web browser.  Next we will check the version of Python that the notebook uses.  In Jupyter Notebook, open up a new Python notebook and type in the cell:
 ```
 import sys
 print(sys.version)
@@ -77,22 +77,20 @@ For me I typed in:
 ```
 pip install tesserocr-2.4.0-cp36-cp36m-win_amd64.whl
 ```
-Next you need to install Pillow which is the Python Imaging Library.  More information can be found at [Pillow](https://pillow.readthedocs.io/en/stable/).  You can pip install Pillow in the Anaconda prompt by:
+Next you need to install **Pillow** which is the Python Imaging Library.  More information can be found at [Pillow](https://pillow.readthedocs.io/en/stable/).  You can pip install **Pillow** in the Anaconda prompt by:
 ```
 pip install Pillow
 ```
-Next, you need to install the trained language packages from tessdata.  There are three levels: standard, best and fast. Click the below links to download and learn more about the trained dataset.  When you download, make sure to put this folder in the **tesserocr-master** folder.  
+Next, you need to install a trained language packages from tessdata.  There are three levels: standard, best and fast. Click the below links to download and learn more about the trained dataset.  When you download, make sure to put this folder in the **tesserocr-master** folder.  
 1. [tessdata_standard](https://github.com/tesseract-ocr/tessdata) -  only works with Tesseract 4.0.0.
 2. [tessdata_best](https://github.com/tesseract-ocr/tessdata_best) -  only works with Tesseract 4.0.0.
 3. [tessdata_fast](https://github.com/tesseract-ocr/tessdata_fast)
 
-I downloaded the **tessdata_best** package, and renamed it **tessdata**.  The "best" file is fairly large, a little slower to use by the algorithm, but has a higher accuracy.
+I downloaded the **tessdata_best** package, and renamed it **tessdata**.  The "best" file is fairly large, is a little slower to use by the algorithm, but has a higher accuracy.  We will only use the Simplified Chinese language pack, but **tessdata** can recognize traditional chinese and over 100 other lanugages. More information can be found at [tesseract-ocr](https://github.com/tesseract-ocr/tesseract).  
 
 Testing tesserocr
 =================
-Tesserocr uses .jpg or .jpeg images as input and converts the picture to text based on the language you told it to use.  Before we can convert a PDF file to text, we need to test the ability to convert a .jpg/.png to text.  We will test this with a image already loaded.  You can of course make and test your own .jpg/.png image with chinese text.  
-
-First, download the image at [image](https://github.com/Naturalenemy07/Chinese-PDF-to-Text/blob/main/chinese_test_file.png).  Make to to save this image to the same directory that opens up when you open the Jupyter Notebook in the virtual environment that uses Python 3.7-whether you made a new one from the above steps or already had this environment suitable for tesserocr.  This is important for the program to find the image-I'm unsure if you can input a path in the Image.open() function.  
+**Tesserocr** uses .jpg/.jpeg/.png images as input and converts the picture to text.  Before we can convert a PDF file to text, we need to test the ability to convert the image to text. First, download the image at [image](https://github.com/Naturalenemy07/Chinese-PDF-to-Text/blob/main/chinese_test_file.png).  You can also use your own image if preferred.  Make sure to save this image to the same directory that opens up when you open the Jupyter Notebook in the virtual environment that uses Python 3.7-whether you made a new one from the above steps or already had this environment suitable for tesserocr.  This is important for the program to find the image-I'm unsure if you can input a path in the Image.open() function.  
 
 Now, activate this environment, and open Jupyter Notebook. First, this image gets preprocessed into a black and white image.  
 ```
@@ -144,7 +142,7 @@ Now that the functions can convert from a picture to text, we can now build on t
 ```
 pip install pdf2image
 ```
-**pdf2image** requires **poppler**, it can be downloaded at [poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases/).  Make sure to add the poppler file to your environmental path.  I also put the folder in the same directory as **tesserocr-master**.  Note, I downloaded poppler-0.90.1, I haven't tested this with more updated versions of **poppler**.    
+**pdf2image** requires **poppler**, it can be downloaded at [poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases/).  Make sure to add the poppler file to your environmental path.  I also put the folder in the same directory as **tesserocr-master**.  Note, I downloaded poppler-0.90.1. I haven't tested Chinese-PDF-to-text with more updated versions of **poppler**.    
 
 Testing pdf2image
 ================
