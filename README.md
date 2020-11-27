@@ -1,5 +1,5 @@
 # Chinese-PDF-to-Text
-Convert Chinese PDF to text with Python on Anaconda and Windows
+Convert Chinese PDF to text with Python on Anaconda and Windows using Jupyter Notebook.
 
 I had a project where I needed to convert a Chinese PDF into text that could be used for analysis.  I use Jupyter Notebook and had trouble finding packages and resources that were specific to my situation.  I decided to write the prcoess down should I ever need to do this again.  If you are new to data science like myself, hopefully this can help you! Before we begin, let's go over my setup:
 * Windows 10
@@ -86,22 +86,106 @@ Next, you need to install the trained language packages from tessdata.  There ar
 2. [tessdata_best](https://github.com/tesseract-ocr/tessdata_best) -  only works with Tesseract 4.0.0.
 3. [tessdata_fast](https://github.com/tesseract-ocr/tessdata_fast)
 
-I used the **tessdata_best** package, it is a little slower but has a higher accuracy.
+I downloaded the **tessdata_best** package, and renamed it **tessdata**.  The "best" file is fairly large, a little slower to use by the algorithm, but has a higher accuracy.
 
 Testing tesserocr
 =================
-Tesserocr uses .jpg or .jpeg images as input and converts the picture to text based on the language you told it to use.  Before we can convert a PDF file 
+Tesserocr uses .jpg or .jpeg images as input and converts the picture to text based on the language you told it to use.  Before we can convert a PDF file to text, we need to test the ability to convert a .jpg/.png to text.  We will test this with a image already loaded.  You can of course make and test your own .jpg/.png image with chinese text.  
+
+First, download the image at [image](https://github.com/Naturalenemy07/Chinese-PDF-to-Text/blob/main/chinese_test_file.png).  Make to to save this image to the same directory that opens up when you open the Jupyter Notebook in the virtual environment that uses Python 3.7-whether you made a new one from the above steps or already had this environment suitable for tesserocr.  This is important for the program to find the image-I'm unsure if you can input a path in the Image.open() function.  
+
+Now, activate this environment, and open Jupyter Notebook. First, this image gets preprocessed into a black and white image.  
+```
+from PIL import Image
+column = Image.open(<name of input file>)
+gray = column.convert('L')
+blackwhite = gray.point(lambda x: 0 if x < 200 else 255, '1')
+blackwhite.save(<name of output file>)
+```
+My input into Jupyter Notebook was:
+```
+1 | from PIL import Image
+2 | column = Image.open('chinese_test_file.png')
+3 | gray = column.convert('L')
+4 | blackwhite = gray.point(lambda x: 0 if x < 200 else 255, '1')
+5 | blackwhite.save('code_bw.jpg')
+```
+Now that the image has been preprocessed, it can be analyzed and converted to text.
+```
+from tesserocr import PyTessBaseAPI
+with PyTessBaseAPI(path=r'path-to-language package', lang='chi_sim') as api:
+    api.SetImageFile(<name of output file>)
+    print(api.GetUTF8Text())
+```
+My input into Jupyter Notebook is below.  Note, the language package is the tessdate_standard, tessdata_best, or tessdata_fast file downloaded in previous 
+```
+1 | from tesserocr import PyTessBaseAPI
+2 | with PyTessBaseAPI(path=r'C:\Users\JohnnyC\tesserocr-master\tessdata', lang='chi_sim') as api:
+3 |     api.SetImageFile('code_bw.jpg')
+4 |     print(api.GetUTF8Text())
+```
+In my language package path in line 2 above, I had to put an "r" before the string.  If I didn't I would get a **SyntaxError** as seen below:
+```
+SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position 2-3: truncated \UXXXXXXXX escape
+```
+In line 4, I printed the text to test the function.  The first few lines from the output should be:
+```
+科学 技术 保密 规定
+
+(1995 年 1 月 6 日 国家 科学 技术 委员 会 、 国 家 保密 局 发 布
+国家 科学 技术 委员 会 、 国 家 保密 局 令 第 20 号 )
+...
+```
+More information about post-processing and customizing can be found in the "Other userful resources" section at the end of this readme, or the **tesserocr** source github page. 
 
 Installing pdf2image
 ====================
+Now that the functions can convert from a picture to text, we can now build on this to convert a pdf to text.  We will use the [pdf2image](https://pypi.org/project/pdf2image/) package to accomplish this.  In the same virtual environment,using the Anaconda prompt:
+```
+pip install pdf2image
+```
+Once this is installed, open Jupyter Notebook and type:
+```
+from pdf2image import convert_from_path 
+
+pdf_file = "chinese_test_file.pdf"
+
+# Store all the pages of the PDF in a variable 
+pages = convert_from_path(pdf_file, 500) 
+  
+# Counter to store images of each page of PDF to image 
+image_counter = 1
+  
+# Iterate through all the pages stored above 
+for page in pages: 
+  
+    # Declaring filename for each page of PDF as JPG 
+    # For each page, filename will be: 
+    # PDF page 1 -> page_1.jpg 
+    # PDF page 2 -> page_2.jpg 
+    # PDF page 3 -> page_3.jpg 
+    # .... 
+    # PDF page n -> page_n.jpg 
+    filename = "page_"+str(image_counter)+".jpg"
+      
+    # Save the image of the page in system 
+    page.save(filename, 'JPEG') 
+  
+    # Increment the counter to update filename 
+    image_counter = image_counter + 1
+  ```
+  
 
 Testing pdf2image
 ================
 
 Other useful resouces
+=====================
 
 1. https://stackoverflow.com/questions/59544006/multiple-versions-of-anaconda-python-installation
 
 2. https://medium.com/better-programming/beginners-guide-to-tesseract-ocr-using-python-10ecbb426c3d
 
 3. https://www.geeksforgeeks.org/python-reading-contents-of-pdf-using-ocr-optical-character-recognition/
+
+4. https://www.geeksforgeeks.org/working-with-pdf-files-in-python/
