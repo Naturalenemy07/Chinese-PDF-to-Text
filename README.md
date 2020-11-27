@@ -138,19 +138,24 @@ In line 4, I printed the text to test the function.  The first few lines from th
 ```
 More information about post-processing and customizing can be found in the "Other userful resources" section at the end of this readme, or the **tesserocr** source github page. 
 
-Installing pdf2image
-====================
+Installing pdf2image and poppler-windows
+========================================
 Now that the functions can convert from a picture to text, we can now build on this to convert a pdf to text.  We will use the [pdf2image](https://pypi.org/project/pdf2image/) package to accomplish this.  In the same virtual environment,using the Anaconda prompt:
 ```
 pip install pdf2image
 ```
-Once this is installed, open Jupyter Notebook and type:
+**pdf2image** requires **poppler**, it can be downloaded at [poppler-windows](https://github.com/oschwartz10612/poppler-windows/releases/).  Make sure to add the poppler file to your environmental path.  I also put the folder in the same directory as **tesserocr-master**.  Note, I downloaded poppler-0.90.1, I haven't tested this with more updated versions of **poppler**.    
+
+Testing pdf2image
+================
+Now that **pdf2image** and **poppler** is installed, we can test the ability to convert Chinese text in a PDF document to text.  Note, this method currently will convert the PDF document to a .jpg/.jpeg image(which is saved on your computer), then convert the chinese text in that image file to a text your computer can understand.  In the future, I will figure out how to skip the creation of a .jpg/.jpeg file and go straight to text.  Next, a Chinese PDF can be downloaded [here](https://github.com/Naturalenemy07/Chinese-PDF-to-Text/blob/main/chinese_test_file.pdf).  You are also free to use your own, limit to 500 pages.  Make sure to place the PDF document in the same directory as the **tesserocr** files (should be the same as the directory that opens up when Jupyter Notebook opens).  To test, activate the appropriate virtual environment, and open up Jupyter Notebook.  Next, the PDF to text program will generally look like the code below:
 ```
-from pdf2image import convert_from_path 
+from pdf2image import convert_from_path
+from tesserocr import PyTessBaseAPI
 
-pdf_file = "chinese_test_file.pdf"
+pdf_file = <string of pdf file.pdf>
 
-# Store all the pages of the PDF in a variable 
+# Store all the pages of the PDF in a variable
 pages = convert_from_path(pdf_file, 500) 
   
 # Counter to store images of each page of PDF to image 
@@ -169,16 +174,77 @@ for page in pages:
     filename = "page_"+str(image_counter)+".jpg"
       
     # Save the image of the page in system 
-    page.save(filename, 'JPEG') 
+    page.save(filename, 'JPEG')
+    
+    # print file name that is being analyzed
+    print(filename)
+    
+    # Loads the recently made .jpg/jpeg file and converts image to text based on trained tesserocr dataset
+    with PyTessBaseAPI(path=r<string that goes to the tesserocer trained database>, lang='chi_sim') as api:
+        api.SetImageFile(filename)
+        print(api.GetUTF8Text())
   
     # Increment the counter to update filename 
     image_counter = image_counter + 1
-  ```
-  
+```
 
-Testing pdf2image
-================
 
+My input into Jupyter Notebook was: 
+```
+1 | from pdf2image import convert_from_path
+2 | from tesserocr import PyTessBaseAPI
+3 | 
+4 | pdf_file = "chinese_test_file.pdf"
+5 | 
+6 | # Store all the pages of the PDF in a variable
+7 | pages = convert_from_path(pdf_file, 500) 
+8 |   
+9 | # Counter to store images of each page of PDF to image 
+10| image_counter = 1
+11|   
+12| # Iterate through all the pages stored above 
+13| for page in pages: 
+14|   
+15|     # Declaring filename for each page of PDF as JPG 
+16|     # For each page, filename will be: 
+17|     # PDF page 1 -> page_1.jpg 
+18|     # PDF page 2 -> page_2.jpg 
+19|     # PDF page 3 -> page_3.jpg 
+20|     # .... 
+21|     # PDF page n -> page_n.jpg 
+22|     filename = "page_"+str(image_counter)+".jpg"
+23|       
+24|     # Save the image of the page in system 
+25|     page.save(filename, 'JPEG')
+26|     
+27|     print(filename)
+28|     with PyTessBaseAPI(path=r'C:\Users\JohnnyC\tesserocr-master\tessdata', lang='chi_sim') as api:
+29|         api.SetImageFile(filename)
+30|         print(api.GetUTF8Text())
+31|   
+32|     # Increment the counter to update filename 
+33|     image_counter = image_counter + 1
+```
+This will print out the entire PDF document. A shortened output was:
+```
+page_1.jpg
+科技 成 果 与 知识 产权 1099
+
+科学 技术 傈 黎 规 定
+
+(1995 年 1 月 6 日 国家 科学 技术 委员 会 、 国 家 保密 局 发 布
+国家 科学 技术 委员 会 、 国 家 保密 局 令 第 20 号 )
+
+第 一 章 总 则
+
+...
+
+第 三 十 三 条 ”本 规定 由 国家 科 委 解释 。
+
+第 三 十 四 条 ”本 规定 目 发 布 之 日 起 施行 。 经
+国务 院 批准 ,一 九 八 一 年 颁布 的 4 科学 技术 保密
+条 例 》 同 时 废止 。
+```
 Other useful resouces
 =====================
 
