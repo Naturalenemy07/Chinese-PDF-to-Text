@@ -108,14 +108,14 @@ My input into Jupyter Notebook was:
 4 | blackwhite = gray.point(lambda x: 0 if x < 200 else 255, '1')
 5 | blackwhite.save('code_bw.jpg')
 ```
-Now that the image has been preprocessed, it can be analyzed and converted to text.
+Now that the image has been preprocessed, it can be analyzed and converted to text.  Note, the language package is the tessdate_standard, tessdata_best, or tessdata_fast file downloaded in previous step.  As recommended, it should be in the tesserocr-master folder.  
 ```
 from tesserocr import PyTessBaseAPI
-with PyTessBaseAPI(path=r'path-to-language package', lang='chi_sim') as api:
+with PyTessBaseAPI(path=r'path-to-language-package', lang='chi_sim') as api:
     api.SetImageFile(<name of output file>)
     print(api.GetUTF8Text())
 ```
-My input into Jupyter Notebook is below.  Note, the language package is the tessdate_standard, tessdata_best, or tessdata_fast file downloaded in previous 
+My input into Jupyter Notebook is below.
 ```
 1 | from tesserocr import PyTessBaseAPI
 2 | with PyTessBaseAPI(path=r'C:\Users\JohnnyC\tesserocr-master\tessdata', lang='chi_sim') as api:
