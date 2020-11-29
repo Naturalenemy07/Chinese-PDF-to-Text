@@ -11,7 +11,7 @@ First, we need to make an environment that is suitable for the trained Chinese l
 
 Making Virtual Environment that uses Python 3.7
 ======
-Assuming you have already installed Anaconda and Python 3.7, make sure to add python 3.7 to your path enviromental variables.  Once this is done, you can open up the Anaconda Prompt.  To create a new virtual environment that contains Python 3.7 type code below into Anaconda Prompt.
+Assuming you have already installed Anaconda and Python 3.7, make sure to add Python 3.7 to your path enviromental variables.  Once this is done, you can open up the Anaconda Prompt.  To create a new virtual environment that contains Python 3.7 type code below into Anaconda Prompt.
 ```
 conda create --name <name of your virtual environment> python=3.7
 ```
