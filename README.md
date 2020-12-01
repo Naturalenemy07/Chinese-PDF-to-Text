@@ -7,7 +7,7 @@ I had a project where I needed to convert a Chinese PDF into text that could be 
 * Anaconda 4.9.2
 * Python 3.8 (I needed to make another environment with Python 3.7-will go over later)
 
-First, we need to make an environment that is suitable for the trained language database, [tesserocr](https://github.com/sirfz/tesserocr). **tesserocr** is supported by Python 2.7, 3.4, 3.5, 3.6 and 3.7 at the time of writing.  If you already have 3.7, you can proceed to installing tesserocr.  
+First, we need to make an environment that is suitable for the API, [tesserocr](https://github.com/sirfz/tesserocr). **tesserocr** is supported by Python 2.7, 3.4, 3.5, 3.6 and 3.7 at the time of writing.  If you already have 3.7, you can proceed to installing tesserocr.  
 
 Making Virtual Environment that uses Python 3.7
 ======
