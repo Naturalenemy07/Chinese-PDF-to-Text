@@ -1,7 +1,7 @@
 # Chinese-PDF-to-Text
 Convert Chinese PDF to text with Python on Anaconda and Windows using Jupyter Notebook.
 
-I had a project where I needed to convert a Chinese PDF into text that could be used for analysis.  I use Jupyter Notebook and had trouble finding packages and resources that were specific to my situation.  If you are new to data science like myself, hopefully this can help you! Before we begin, let's go over my setup:
+I had a project where I needed to convert a Chinese PDF into text that could be used for analysis.  I used Jupyter Notebook and had trouble finding packages and resources that were specific to my situation.  If you are new to data science like myself, hopefully this can help you! Before we begin, let's go over my setup:
 * Windows 10
 * 64-bit OS, x64-based processor
 * Anaconda 4.9.2
